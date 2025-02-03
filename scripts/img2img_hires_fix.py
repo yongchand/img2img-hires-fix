@@ -39,7 +39,7 @@ class I2IHiresFix(scripts.Script):
         sampler_names = ['Use same sampler'] + [x.name for x in sd_samplers.visible_samplers()]
         scheduler_names = ['Use same scheduler'] + [x.label for x in sd_schedulers.schedulers]
 
-        with ui_components.InputAccordion(False, label='img2img Hires Fix') as enable:
+        with ui_components.InputAccordion(True, label='img2img Hires Fix') as enable:
             with gr.Row():
                 upscaler = gr.Dropdown([x.name for x in shared.sd_upscalers], label='Upscaler', value=self.upscaler)
                 steps = gr.Slider(minimum=0, maximum=25, step=1, label="Hires steps", value=self.steps)
