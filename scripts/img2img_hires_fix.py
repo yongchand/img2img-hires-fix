@@ -6,6 +6,7 @@ import numpy as np
 from copy import copy
 from PIL import Image
 from modules import scripts, shared, processing, sd_samplers, rng, images, devices, prompt_parser, sd_models, extra_networks, ui_components, sd_schedulers, script_callbacks, extra_networks
+from modules.processing import Processed
 
 quote_swap = str.maketrans('\'"', '"\'')
 
@@ -17,15 +18,15 @@ class I2IHiresFix(scripts.Script):
         self.sampler_name = None
         self.cond = None
         self.uncond = None
-        self.ratio = 2.0
+        self.ratio = 2.0  # Updated to 2.0
         self.width = 0
-        self.height = 0
+        self.height = 0  # Set to 0
         self.prompt = ""
         self.negative_prompt = ""
-        self.steps = 0
-        self.upscaler = 'R-ESRGAN 4x+'
-        self.denoise_strength = 0.33
-        self.cfg = 0
+        self.steps = 15  # Updated to 15
+        self.upscaler = 'R-ESRGAN 4x+ Anime6B'  # Updated to R-ESRGAN 4x+ Anime6B
+        self.denoise_strength = 0.1  # Updated to 0.1
+        self.cfg = 0  # Updated to 0
         self.extra_data = None
 
     def title(self):
