@@ -81,7 +81,7 @@ class I2IHiresFix(scripts.Script):
         ]
 
         return [enable, ratio, width, height, steps, upscaler, prompt, negative_prompt, denoise_strength, sampler, cfg, scheduler]
-
+    
     def postprocess_image(self, p, pp, enable, ratio, width, height, steps, upscaler, prompt, negative_prompt, denoise_strength, sampler, cfg, scheduler):
         if not enable:
             return
@@ -168,6 +168,26 @@ class I2IHiresFix(scripts.Script):
                 c, uc = [prompt], [negative_prompt]
             self.cond = prompt_parser.get_multicond_learned_conditioning(shared.sd_model, c, self.steps)
             self.uncond = prompt_parser.get_learned_conditioning(shared.sd_model, uc, self.steps)
+
+    def run(self, p, ratio=2.0, width=0, height=0, steps=15, upscaler='R-ESRGAN 4x+ Anime6B',
+            prompt="", negative_prompt="", denoise_strength=0.1):
+        
+        self.p = copy(p)
+        self.ratio = ratio
+        self.width = width
+        self.height = height
+        self.prompt = prompt.strip()
+        self.negative_prompt = negative_prompt.strip()
+        self.steps = steps
+        self.upscaler = upscaler
+        self.denoise_strength = denoise_strength
+
+        processed_images = []
+        for img in p.init_images:
+            processed_img = self._generate_image(img)
+            processed_images.append(processed_img)
+        
+        return Processed(p, processed_images, p.seed, "")
 
     def _generate_image(self, x):
         """Generate the processed image based on the set parameters."""
